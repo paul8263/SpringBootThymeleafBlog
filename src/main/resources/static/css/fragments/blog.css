@@ -1,0 +1,82 @@
+.blog-wrapper {
+    margin: 20px 0;
+    width: 100%;
+    background-color: #F1F1F1;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    -webkit-border-radius: 5px 5px;
+    -moz-border-radius: 5px 5px;
+    border-radius: 5px 5px;
+}
+.blog-wrapper .title-wrapper {
+    margin: 10px 0;
+    width: 100%;
+    height: 100px;
+    background-color: #1B9CE2;
+    position: relative;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+}
+
+.blog-wrapper .title-wrapper .img-wrapper {
+    position: absolute;
+    top: 15px;
+    left: -15px;
+    height: 64px;
+    width: 64px;
+    background-color: coral;
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+}
+
+.blog-wrapper .title-wrapper .title {
+    top: 30px;
+    left: 100px;
+    position: relative;
+}
+
+.blog-wrapper .title-wrapper .title a {
+    color: black;
+    font-family: Arial;
+    font-size: 40px;
+    font-style: italic;
+    text-decoration: none;
+    transition: color 0.5s;
+}
+.blog-wrapper .title-wrapper .title a:hover {
+    text-decoration: underline;
+    color: coral;
+}
+
+.blog-wrapper .body-wrapper {
+    margin: 0 20px;
+    /*background-color: deeppink;*/
+    font-size: 20px;
+    color: black;
+}
+.blog-wrapper .footer-wrapper {
+    margin: 20px;
+    position: relative;
+}
+
+.blog-wrapper .footer-wrapper .author {
+    float: left;
+    margin-bottom: 20px;
+}
+.blog-wrapper .footer-wrapper .date {
+    position: absolute;
+    right: 100px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+@media screen and (max-width: 799px) {
+    .blog-wrapper .title-wrapper .img-wrapper {
+        left: 15px;
+    }
+}

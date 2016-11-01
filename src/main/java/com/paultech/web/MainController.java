@@ -1,0 +1,43 @@
+package com.paultech.web;
+
+import com.paultech.domain.User;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+/**
+ * Created by paulzhang on 28/10/2016.
+ */
+@Controller
+public class MainController {
+    @GetMapping(value = "/")
+    public String index() {
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        System.out.println(obj);
+        return "index";
+    }
+
+    @GetMapping(value = "/about")
+    public String about() {
+        return "about";
+    }
+
+    @GetMapping(value = "/blog")
+    public String displayBlog() {
+        return "blog";
+    }
+
+    @GetMapping(value = "/signup")
+    public String signUp(Model model) {
+        model.addAttribute("user", new User());
+        return "signUp";
+    }
+
+    @GetMapping(value = "/login")
+    public String displayLoginPage(@RequestParam(value = "error", required = false) String error, Model model) {
+        model.addAttribute("error", error);
+        return "login";
+    }
+}

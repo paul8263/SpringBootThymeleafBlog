@@ -1,0 +1,25 @@
+.header-wrapper {
+    width: 100%;
+    background-color: #F1F1F1;
+    border-bottom: 1px solid #c8c8c8;
+}
+.header-wrapper .row {
+    width: 100%;
+}
+.icon {
+    margin: 5px;
+    float: left;
+}
+.title {
+    margin-left: 10px;
+    float: left;
+
+}
+.title p {
+    line-height: 25px;
+    margin: 5px;
+}
+
+.clear-fix {
+    clear: both;
+}

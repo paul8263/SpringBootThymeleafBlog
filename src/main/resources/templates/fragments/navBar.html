@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="navBar" class="navbar-wrapper">
+        <div class="navbar">
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a th:href="@{/about}">About Us</a></li>
+                <li><a th:href="@{/logout}">Log Out</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

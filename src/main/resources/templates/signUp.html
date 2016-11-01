@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Sign Up</title>
+    <link rel="stylesheet" th:href="@{/css/page-layout.css}" href="../static/css/page-layout.css"/>
+    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" href="../static/css/fragments/header.css"/>
+    <link rel="stylesheet" th:href="@{/css/fragments/navBar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pages/signUp.css}"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navBar :: navBar"></div>
+<div class="container">
+    <div class="img-block">
+        <form th:action="@{/user}" method="post" th:object="${user}">
+            <div class="element email-wrapper">
+                <input type="text" class="textfield" placeholder="Email" th:field="*{email}"/>
+            </div>
+            <div class="email-error-field" th:if="${#fields.hasErrors('email')}">
+                <p th:errors="*{email}"></p>
+            </div>
+            <div class="element password-wrapper">
+                <input type="password" class="textfield" placeholder="Password" th:field="*{password}"/>
+            </div>
+            <div class="password-error-field" th:if="${#fields.hasErrors('password')}">
+                <p th:errors="*{password}">Email error</p>
+            </div>
+            <div class="element password2-wrapper">
+                <input type="password" class="textfield" placeholder="Confirm your password" th:field="*{password2}"/>
+            </div>
+            <div class="password2-error-field" th:if="${#fields.hasErrors('password2')}">
+                <p th:errors="*{password2}">Password error</p>
+            </div>
+            <div class="element button-wrapper">
+                <input type="submit" value="OK" class="link ok"/>
+                <a th:href="@{/}" class="link cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

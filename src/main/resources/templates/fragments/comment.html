@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="comment" class="comment-wrapper">
+        <div class="comment-block-title">
+            <p>Comments</p>
+        </div>
+        <div class="comment-content-block">
+            <div th:replace="fragments/comment-item :: comment-item"></div>
+            <div th:replace="fragments/comment-item :: comment-item"></div>
+        </div>
+    </div>
+
+</body>
+</html>
