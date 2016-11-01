@@ -62,6 +62,8 @@
 .blog-wrapper .footer-wrapper {
     margin: 20px;
     position: relative;
+    box-sizing: border-box;
+    width: auto;
 }
 
 .blog-wrapper .footer-wrapper .author {

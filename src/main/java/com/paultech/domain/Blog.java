@@ -1,5 +1,7 @@
 package com.paultech.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,9 +16,13 @@ public class Blog implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotEmpty
     private String title;
+    @NotEmpty
     private String content;
+    @Temporal(TemporalType.DATE)
     private Date createDate;
+    @Temporal(TemporalType.DATE)
     private Date modifyDate;
 
     @ManyToOne

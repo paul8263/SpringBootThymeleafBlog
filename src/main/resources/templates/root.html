@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
     <title>Index</title>
@@ -32,7 +33,7 @@
     </div>
 </div>
 <div class="container">
-    <div layout:fragment="content">
+    <div layout:fragment="content" th:remove="tag">
         Content goes here
     </div>
 </div>

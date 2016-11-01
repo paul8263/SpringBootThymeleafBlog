@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="root">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add/Modify Blog</title>
+    <link rel="stylesheet" th:href="@{/css/pages/addModifyBlog.css}"/>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="form-wrapper">
+            <form th:action="@{${isAdding ? '/blog/new' : '/blog/'+ blog.id}}" method="post" th:object="${blog}">
+                <div class="field-wrapper">
+                    <label for="title">Blog title:</label>
+                    <input type="text" id="title" th:field="*{title}" class="text-field" placeholder="Title"/>
+                </div>
+                <div class="field-wrapper">
+                    <label for="content">Blog content:</label>
+                    <textarea name="" id="content" cols="30" rows="10" th:field="*{content}" class="text-field textarea" placeholder="What you want to say"></textarea>
+                </div>
+                <div class="field-wrapper">
+                    <input type="submit" value="Submit" class="button submit"/>
+                    <input type="reset" value="Clear" class="button reset"/>
+                    <a th:href="@{/blog}" class="button cancel">Cancel</a>
+                </div>
+                <div class="clear-fix"></div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

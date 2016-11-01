@@ -23,11 +23,6 @@ public class MainController {
         return "about";
     }
 
-    @GetMapping(value = "/blog")
-    public String displayBlog() {
-        return "blog";
-    }
-
     @GetMapping(value = "/signup")
     public String signUp(Model model) {
         model.addAttribute("user", new User());
