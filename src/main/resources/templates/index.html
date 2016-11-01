@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="root"
+>
 <head>
     <meta charset="UTF-8"/>
     <title>Index</title>
-    <link rel="stylesheet" th:href="@{/css/page-layout.css}" href="../static/css/page-layout.css"/>
-    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" href="../static/css/fragments/header.css"/>
-    <link rel="stylesheet" th:href="@{/css/fragments/navBar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/pages/index.css}"/>
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
-    <div th:replace="fragments/navBar :: navBar"></div>
-    <div class="container">
+    <div layout:fragment="content">
         <div class="img-block">
             <div class="element email-wrapper">
                 <input type="text" class="textfield" placeholder="Email"/>
@@ -27,6 +23,5 @@
             </div>
         </div>
     </div>
-<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index</title>
+    <link rel="stylesheet" th:href="@{/css/root.css}" href="../static/css/root.css"/>
+</head>
+<body>
+<!-- Header -->
+<div class="header-wrapper">
+    <div class="row">
+        <div class="icon">
+            <img th:src="@{/img/blog-icon.png}" alt="Logo" width="25px" height="25px"/>
+        </div>
+        <div class="title">
+            <p>Paul's Blog Site</p>
+        </div>
+        <div class="clear-fix"></div>
+    </div>
+</div>
+<!-- NavBar -->
+<div class="navbar-wrapper">
+    <div class="navbar">
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/blog}">Blog</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a th:href="@{/about}">About Us</a></li>
+            <li><a onclick="submit()" th:if="${#authentication.name != 'anonymousUser'}">Log Out</a></li>
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div layout:fragment="content">
+        Content goes here
+    </div>
+</div>
+<div class="footer-wrapper">
+    <p class="footer-content">Paul Tech 2016</p>
+</div>
+<div style="display: none">
+    <form th:action="@{/logout}" id="logout_form" method="post">
+    </form>
+</div>
+<script>
+    function submit() {
+        var logoutForm = document.getElementById("logout_form");
+        logoutForm.submit();
+    }
+</script>
+</body>
+</html>

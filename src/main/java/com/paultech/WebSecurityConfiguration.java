@@ -25,13 +25,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
-//        auth.userDetailsService(javaBlogUserDetailsService()).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(javaBlogUserDetailsService()).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/")
+                .authenticated()
                 .antMatchers("/**")
                 .permitAll()
             .and()

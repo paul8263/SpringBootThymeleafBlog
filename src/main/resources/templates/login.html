@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="root"
+>
 <head>
     <meta charset="UTF-8"/>
-    <title>Index</title>
-    <link rel="stylesheet" th:href="@{/css/page-layout.css}" href="../static/css/page-layout.css"/>
-    <link rel="stylesheet" th:href="@{/css/fragments/header.css}" href="../static/css/fragments/header.css"/>
-    <link rel="stylesheet" th:href="@{/css/fragments/navBar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/fragments/footer.css}"/>
+    <title>Log In</title>
     <link rel="stylesheet" th:href="@{/css/pages/login.css}"/>
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
-    <div th:replace="fragments/navBar :: navBar"></div>
-    <div class="container">
-        <div class="img-block">
-            <form th:action="@{/login}" method="post">
-                <div class="element email-wrapper">
-                    <input type="text" name="email" class="textfield" placeholder="Email"/>
-                </div>
+<div layout:fragment="content">
+    <div class="img-block">
+        <form th:action="@{/login}" method="post">
+            <div class="element email-wrapper">
+                <input type="text" name="email" class="textfield" placeholder="Email"/>
+            </div>
 
-                <div class="element password-wrapper">
-                    <input type="password" name="password" class="textfield" placeholder="Password"/>
-                </div>
-                <div th:if="${error != null}" class="login-error-wrapper">
-                    <p>Email or password error</p>
-                </div>
-                <div class="element button-wrapper">
-                    <input type="submit" class="link login" value="Log in"/>
-                    <a th:href="@{/signup}" class="link sign-up">Sign Up</a>
-                </div>
-            </form>
-        </div>
+            <div class="element password-wrapper">
+                <input type="password" name="password" class="textfield" placeholder="Password"/>
+            </div>
+            <div th:if="${error != null}" class="login-error-wrapper">
+                <p>Email or password error</p>
+            </div>
+            <div class="element button-wrapper">
+                <input type="submit" class="link login" value="Log in"/>
+                <a th:href="@{/signup}" class="link sign-up">Sign Up</a>
+            </div>
+        </form>
     </div>
-<div th:replace="fragments/footer :: footer"></div>
+</div>
+
 </body>
 </html>
