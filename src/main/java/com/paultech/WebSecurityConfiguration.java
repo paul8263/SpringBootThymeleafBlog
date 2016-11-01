@@ -43,7 +43,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/blog", true)
-        .and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
+            .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
     }
 
 }

@@ -27,7 +27,6 @@ public class BlogController {
     public String displayBlog(Model model) {
         List<Blog> blogList = blogRepo.findAll();
         model.addAttribute("blogList", blogList);
-        System.out.println(blogList.size());
         return "blog";
     }
 
