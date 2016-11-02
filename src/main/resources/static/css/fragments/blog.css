@@ -77,6 +77,11 @@
     float: left;
 }
 
+.blog-wrapper > p {
+    font-family: Arial;
+    padding: 20px;
+}
+
 @media screen and (max-width: 799px) {
     .blog-wrapper .title-wrapper .img-wrapper {
         left: 15px;

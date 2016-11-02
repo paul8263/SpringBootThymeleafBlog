@@ -6,17 +6,17 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:fragment="blog" class="blog-wrapper">
+    <div th:fragment="blog(blog)" class="blog-wrapper">
         <div class="title-wrapper">
             <div class="img-wrapper">
                 <img src="" alt="" class="blog-img"/>
             </div>
             <div class="title">
-                <a th:href="@{/blog/1}">Title</a>
+                <a th:href="@{'/blog/' + ${blog.id}}" th:text="${blog.title}">Title</a>
             </div>
         </div>
         <div class="body-wrapper">
-            <p>Lorem ipsum dolor sit amet, vim an tritani suscipit inciderint. Ea mel decore eruditi, has illum eloquentiam cu, vel ornatus expetenda expetendis ex. Impetus perfecto te mea. Cu perpetua euripidis pri, sea facete antiopam erroribus ad. Cu vix omnesque persecuti.
+            <p th:text="${blog.content}">Lorem ipsum dolor sit amet, vim an tritani suscipit inciderint. Ea mel decore eruditi, has illum eloquentiam cu, vel ornatus expetenda expetendis ex. Impetus perfecto te mea. Cu perpetua euripidis pri, sea facete antiopam erroribus ad. Cu vix omnesque persecuti.
 
                 Error nobis possit no sit, vix ei viris ponderum apeirian. Clita oratio soluta ei sea, te sed idque placerat gubergren, idque etiam vidisse at mel. Eam ut viris graeco postulant, ex vix probatus perpetua. Vix eu solum autem timeam.
 
@@ -25,13 +25,17 @@
         </div>
         <div class="footer-wrapper">
             <div class="author">
-                <p>Paul</p>
+                <p th:text="${blog.user == null ? 'Anonymous' : blog.user.name}">Paul</p>
             </div>
             <div class="date">
-                <p>01/10/2016</p>
+                <p th:text="${blog.modifyDate}">01/10/2016</p>
             </div>
             <div class="clear-fix"></div>
         </div>
+    </div>
+
+    <div th:fragment="noBlogHint" class="blog-wrapper">
+        <p>No blog available</p>
     </div>
 </body>
 </html>

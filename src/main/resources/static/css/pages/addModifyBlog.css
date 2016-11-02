@@ -73,3 +73,9 @@ label {
     background-color: darkgoldenrod;
 }
 
+.form-wrapper .error-msg {
+    font-family: Arial;
+    font-weight: bold;
+    color: red;
+}
+

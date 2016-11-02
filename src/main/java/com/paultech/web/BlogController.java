@@ -3,6 +3,8 @@ package com.paultech.web;
 import com.paultech.domain.Blog;
 import com.paultech.domain.BlogComment;
 import com.paultech.service.BlogRepo;
+import com.paultech.web.exceptions.ItemNotFoundException;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,18 +33,36 @@ public class BlogController {
     }
 
     @GetMapping(value = "/{blogId}")
-    public String displayBlogDetail(@PathVariable long blogId) {
+    public String displayBlogDetail(@PathVariable long blogId, Model model) {
+        Blog blog = blogRepo.findOne(blogId);
+        model.addAttribute("blog", blog);
         return "blogDetail";
     }
 
-//    @PostMapping(value = "/{blogId}")
-//    public String modifyBlog(@ModelAttribute Blog blog, BindingResult result) {
-//
-//    }
+    @GetMapping(value = "/{blogId}/modify")
+    public String modifyBlog(@PathVariable long blogId, Model model) throws ItemNotFoundException {
+        Blog blog = blogRepo.findOne(blogId);
+        if (null == blog) throw new ItemNotFoundException();
+        model.addAttribute("blog", blog);
+        model.addAttribute("isAdding", false);
+        return "addModifyBlog";
+    }
+
+    @PostMapping(value = "/{blogId}/modify")
+    public String modifyBlog(@ModelAttribute @Valid Blog blog, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("isAdding", false);
+            return "addModifyBlog";
+        }
+        blog.setModifyDate(new Date());
+        blogRepo.save(blog);
+        return "redirect:/blog";
+    }
 
     @PostMapping(value = "/new")
-    public String createBlog(@ModelAttribute @Valid Blog blog, BindingResult result) {
+    public String createBlog(@ModelAttribute @Valid Blog blog, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("isAdding", true);
             return "addModifyBlog";
         }
         blog.setCreateDate(new Date());

@@ -11,7 +11,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:replace="fragments/blog :: blog"></div>
+    <div th:replace="fragments/blog :: blog(${blog})"></div>
     <div th:replace="fragments/comment :: comment"></div>
 </div>
 </body>
