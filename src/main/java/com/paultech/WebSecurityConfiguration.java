@@ -31,12 +31,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/login")
-//                .permitAll()
-//                .antMatchers("/blog")
-//                .permitAll()
                 .regexMatchers("/blog/\\d+$")
                 .permitAll()
+                .antMatchers("/blog/my")
+                .authenticated()
                 .antMatchers("/blog/*/**")
                 .authenticated()
                 .antMatchers("/blog/new")

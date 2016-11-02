@@ -70,6 +70,19 @@
     float: left;
     margin-bottom: 20px;
 }
+
+.blog-wrapper .footer-wrapper .delete {
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+.blog-wrapper .footer-wrapper .delete a {
+    font-family: Arial;
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+}
+
 .blog-wrapper .footer-wrapper .date {
     position: absolute;
     right: 100px;

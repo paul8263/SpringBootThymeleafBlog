@@ -27,6 +27,9 @@
             <div class="author">
                 <p th:text="${blog.user == null ? 'Anonymous' : blog.user.email}">Paul</p>
             </div>
+            <div class="delete" th:if="${#authentication.name == blog.user.email}">
+                <a th:href="@{'/blog/' + ${blog.id} + '/delete'}">Delete this blog</a>
+            </div>
             <div class="date">
                 <p th:text="${blog.modifyDate}">01/10/2016</p>
             </div>

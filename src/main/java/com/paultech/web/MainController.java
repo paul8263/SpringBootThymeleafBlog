@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
     @GetMapping(value = "/")
     public String index() {
-        return "login";
+        return "redirect:/blog";
     }
 
     @GetMapping(value = "/about")

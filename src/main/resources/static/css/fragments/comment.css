@@ -44,6 +44,19 @@
     float: left;
     margin-left: 10px;
 }
+
+.comment-wrapper .comment-item .comment-item-info .delete {
+    float: left;
+    margin-left: 20px;
+}
+
+.comment-wrapper .comment-item .comment-item-info .delete a {
+    font-family: Arial;
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+}
+
 .comment-wrapper .comment-item .comment-item-info .date {
     float: left;
     position: absolute;

@@ -36,9 +36,20 @@ public class BlogController {
     private IUserHelper userHelper;
 
     @GetMapping
-    public String displayBlog(Model model) {
+    public String displayAllBlog(Model model) {
         List<Blog> blogList = blogRepo.findAll();
         model.addAttribute("blogList", blogList);
+        model.addAttribute("displayAddBlogLink", false);
+        return "blog";
+    }
+
+    @GetMapping(value = "/my")
+    public String displayMyBlog(Model model) throws UnauthorizedException {
+        User user = userHelper.getUserFromAuthentication();
+        if (null == user) throw new UnauthorizedException();
+        List<Blog> blogList = blogRepo.findByUserEmail(user.getEmail());
+        model.addAttribute("blogList", blogList);
+        model.addAttribute("displayAddBlogLink", true);
         return "blog";
     }
 
@@ -94,10 +105,11 @@ public class BlogController {
         return "addModifyBlog";
     }
 
-//    @GetMapping(value = "/{blogId}/delete")
-//    public String deleteBlog(@PathVariable long blogId) {
-//
-//    }
+    @GetMapping(value = "/{blogId}/delete")
+    public String deleteBlog(@PathVariable long blogId) {
+        blogRepo.delete(blogId);
+        return "redirect:/blog";
+    }
 
     @PostMapping(value = "/{blogId}/comment")
     public String createComment(@PathVariable long blogId, @ModelAttribute @Valid BlogComment blogComment, BindingResult result, Model model) throws ItemNotFoundException, UnauthorizedException {
@@ -120,9 +132,10 @@ public class BlogController {
     }
 
 
-//    @GetMapping(value = "/comment/{commentId}/delete")
-//    public String deleteComment(@PathVariable long BlogId, @PathVariable long commentId) {
-//
-//    }
+    @GetMapping(value = "/{blogId}/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable long blogId, @PathVariable long commentId) {
+        blogCommentRepo.delete(commentId);
+        return "redirect:/blog/" + blogId;
+    }
 
 }

@@ -1,0 +1,15 @@
+.add-blog-wrapper {
+    padding: 20px 0 10px 0;
+}
+
+.add-blog-wrapper a {
+    text-decoration: none;
+    font-family: Arial;
+    font-weight: bold;
+    color: white;
+    background-color: coral;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 10px;
+}

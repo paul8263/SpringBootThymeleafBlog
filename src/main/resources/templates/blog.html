@@ -8,9 +8,13 @@
     <title>Blog</title>
 
     <link rel="stylesheet" th:href="@{/css/fragments/blog.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pages/blog.css}"/>
 </head>
 <body>
 <div layout:fragment="content">
+    <div class="add-blog-wrapper" th:if="${displayAddBlogLink == true}">
+        <a th:href="@{/blog/new}">Add new Blog</a>
+    </div>
     <th:block th:each="blog : ${blogList}">
         <div th:replace="fragments/blog :: blog(${blog})"></div>
     </th:block>
