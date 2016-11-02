@@ -16,7 +16,7 @@
     width: 80%;
 }
 
-label {
+.form-wrapper label {
     font-family: Arial;
     font-size: 30px;
     margin: 10px 0;

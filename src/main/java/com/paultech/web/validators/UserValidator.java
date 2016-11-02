@@ -18,8 +18,13 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+        final int MINLENGTH=6;
+        final int MAXLENGTH=16;
         User user = (User)o;
 //        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
+        if (user.getPassword().length() < MINLENGTH || user.getPassword().length() > MAXLENGTH) {
+            errors.rejectValue("password", "Length", "Password length should be between 6 and 16 letters");
+        }
         if (!user.isPassword2Valid()) {
             errors.rejectValue("password2", "NotEqual", "Two passwords are not equal");
         }

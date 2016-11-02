@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Blog</title>
 
-    <link rel="stylesheet" th:href="@{/css/fragments/blog.css}"/>
+    <link rel="stylesheet" th:href="@{/css/fragments/blogItem.css}"/>
     <link rel="stylesheet" th:href="@{/css/pages/blog.css}"/>
 </head>
 <body>
@@ -16,10 +16,10 @@
         <a th:href="@{/blog/new}">Add new Blog</a>
     </div>
     <th:block th:each="blog : ${blogList}">
-        <div th:replace="fragments/blog :: blog(${blog})"></div>
+        <div th:replace="fragments/blogItem :: blog(${blog})"></div>
     </th:block>
     <div th:if="${#lists.size(blogList) == 0}">
-        <div th:replace="fragments/blog :: noBlogHint"></div>
+        <div th:replace="fragments/blogItem :: noBlogHint"></div>
     </div>
 </div>
 </body>
