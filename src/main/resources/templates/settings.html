@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="root">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Settings</title>
+    <link rel="stylesheet" th:href="@{/css/pages/settings.css}"/>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="content-wrapper">
+            <div class="greetings-wrapper">
+                <p class="greetings">Hello <span th:text="${#authentication.name}"></span></p>
+            </div>
+            <div class="operations">
+                <p>Operations:</p>
+                <a href="#">Change Password</a>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>

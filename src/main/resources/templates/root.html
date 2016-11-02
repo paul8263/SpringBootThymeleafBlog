@@ -4,6 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>Index</title>
     <link rel="stylesheet" th:href="@{/css/root.css}" href="../static/css/root.css"/>
 </head>
@@ -15,7 +16,13 @@
             <img th:src="@{/img/blog-icon.png}" alt="Logo" width="25px" height="25px"/>
         </div>
         <div class="title">
-            <p>Paul's Blog Site</p>
+            <p th:text="#{root.header.title}">Paul's Blog Site</p>
+        </div>
+        <div class="language-selector">
+            <ul>
+                <li><a th:href="@{'/?lang=en_US'}">English</a></li>
+                <li><a th:href="@{'/?lang=zh_CN'}">中文</a></li>
+            </ul>
         </div>
         <div class="clear-fix"></div>
     </div>
@@ -24,12 +31,16 @@
 <div class="navbar-wrapper">
     <div class="navbar">
         <ul>
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/blog/my}">My Blog</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a th:href="@{/about}">About Us</a></li>
-            <li th:if="${#authentication.name != 'anonymousUser'}"><a onclick="submit()">Log Out</a></li>
-            <li th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Log In</a></li>
+            <li class="menu-title"><label for="showMenuItemToggle"></label><span>Menu</span></li>
+            <input id="showMenuItemToggle" type="checkbox" style="display: none;"/>
+            <div class="menu-item-wrapper">
+                <li class="menu-item"><a th:href="@{/}">Home</a></li>
+                <li class="menu-item"><a th:href="@{/blog/my}">My Blog</a></li>
+                <li class="menu-item"><a th:href="@{/user/settings}">Settings</a></li>
+                <li class="menu-item"><a th:href="@{/about}">About Us</a></li>
+                <li class="menu-item" th:if="${#authentication.name != 'anonymousUser'}"><a onclick="submit()">Log Out</a></li>
+                <li class="menu-item" th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Log In</a></li>
+            </div>
         </ul>
     </div>
 </div>
@@ -45,6 +56,7 @@
     <form th:action="@{/logout}" id="logout_form" method="post">
     </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
     function submit() {
         var logoutForm = document.getElementById("logout_form");

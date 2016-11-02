@@ -54,7 +54,26 @@
     clear: both;
 }
 
-/* NavBar */
+.header-wrapper .language-selector {
+    float: left;
+    margin: 5px;
+}
+
+.header-wrapper .language-selector ul {
+    list-style: none;
+    text-decoration: none;
+}
+
+.header-wrapper .language-selector ul li {
+    display: inline-block;
+    padding: 0 5px;
+}
+
+.header-wrapper .language-selector ul li a {
+    color: black;
+}
+
+    /* NavBar */
 .navbar-wrapper {
     /*margin-top: 1px;*/
     width: 100%;
@@ -91,15 +110,55 @@
     color: coral;
 }
 
+.navbar ul li.menu-title {
+    display: none;
+}
+
+.navbar ul li.menu-item {
+
+}
+label[for="showMenuItemToggle"] {
+    display: inline-block;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+    background-size: contain;
+    height: 20px;
+    width: 20px;
+}
+.navbar .menu-title span {
+    margin-left: 10px;
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+
+
 @media screen and (min-width: 800px) and (max-width: 1199px) {
     .navbar {
         width: 800px;
     }
 }
 
-@media screen and (max-width: 799px) {
+@media screen and (min-width: 500px) and (max-width: 799px) {
     .navbar {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 499px) {
+    .navbar ul li.menu-title {
+        display: inline-block;
+    }
+    .navbar ul li.menu-item {
+        display: block;
+    }
+    #showMenuItemToggle:checked ~ .menu-item-wrapper {
+        display: block;
+    }
+
+    #showMenuItemToggle ~ .menu-item-wrapper {
+        display: none;
     }
 }
 
