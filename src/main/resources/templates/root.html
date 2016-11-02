@@ -28,7 +28,8 @@
             <li><a th:href="@{/blog}">Blog</a></li>
             <li><a href="#">Settings</a></li>
             <li><a th:href="@{/about}">About Us</a></li>
-            <li><a onclick="submit()" th:if="${#authentication.name != 'anonymousUser'}">Log Out</a></li>
+            <li th:if="${#authentication.name != 'anonymousUser'}"><a onclick="submit()">Log Out</a></li>
+            <li th:if="${#authentication.name == 'anonymousUser'}"><a th:href="@{/login}">Log In</a></li>
         </ul>
     </div>
 </div>

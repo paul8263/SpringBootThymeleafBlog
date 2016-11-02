@@ -2,9 +2,12 @@ package com.paultech.web;
 
 import com.paultech.domain.Blog;
 import com.paultech.domain.BlogComment;
+import com.paultech.domain.User;
 import com.paultech.service.BlogCommentRepo;
 import com.paultech.service.BlogRepo;
 import com.paultech.web.exceptions.ItemNotFoundException;
+import com.paultech.web.exceptions.UnauthorizedException;
+import com.paultech.web.helpers.IUserHelper;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,9 @@ public class BlogController {
 
     @Autowired
     private BlogCommentRepo blogCommentRepo;
+
+    @Autowired
+    private IUserHelper userHelper;
 
     @GetMapping
     public String displayBlog(Model model) {
@@ -66,11 +72,15 @@ public class BlogController {
     }
 
     @PostMapping(value = "/new")
-    public String createBlog(@ModelAttribute @Valid Blog blog, BindingResult result, Model model) {
+    public String createBlog(@ModelAttribute @Valid Blog blog, BindingResult result, Model model) throws UnauthorizedException {
         if (result.hasErrors()) {
             model.addAttribute("isAdding", true);
             return "addModifyBlog";
         }
+        User user = userHelper.getUserFromAuthentication();
+        if (null == user) throw new UnauthorizedException();
+
+        blog.setUser(user);
         blog.setCreateDate(new Date());
         blog.setModifyDate(new Date());
         blogRepo.save(blog);
@@ -84,14 +94,13 @@ public class BlogController {
         return "addModifyBlog";
     }
 
-
-//
 //    @GetMapping(value = "/{blogId}/delete")
 //    public String deleteBlog(@PathVariable long blogId) {
 //
 //    }
+
     @PostMapping(value = "/{blogId}/comment")
-    public String createComment(@PathVariable long blogId, @ModelAttribute @Valid BlogComment blogComment, BindingResult result, Model model) throws ItemNotFoundException {
+    public String createComment(@PathVariable long blogId, @ModelAttribute @Valid BlogComment blogComment, BindingResult result, Model model) throws ItemNotFoundException, UnauthorizedException {
         Blog blog = blogRepo.findOne(blogId);
         if (null == blog) throw new ItemNotFoundException();
         if (result.hasErrors()) {
@@ -99,6 +108,11 @@ public class BlogController {
             model.addAttribute("blogComment", blogComment);
             return "blogDetail";
         }
+
+        User user = userHelper.getUserFromAuthentication();
+        if (null == user) throw new UnauthorizedException();
+
+        blogComment.setCommenter(user);
         blogComment.setCommentedBlog(blog);
         blogComment.setCommentDate(new Date());
         blogCommentRepo.save(blogComment);

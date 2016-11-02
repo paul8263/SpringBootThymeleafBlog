@@ -9,7 +9,7 @@
 <div th:fragment="comment-item(blogComment)" class="comment-item">
     <div class="comment-item-info">
         <div class="author">
-            <p>Paul</p>
+            <p th:text="${blogComment.commenter.email}">Paul</p>
         </div>
         <div class="date">
             <p th:text="${blogComment.commentDate}">01/10/2016</p>
