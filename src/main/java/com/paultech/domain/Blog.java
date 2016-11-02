@@ -29,7 +29,7 @@ public class Blog implements Serializable {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "commentedBlog")
+    @OneToMany(mappedBy = "commentedBlog", cascade = CascadeType.REMOVE)
     private List<BlogComment> commentList = new ArrayList<>();
 
     public long getId() {

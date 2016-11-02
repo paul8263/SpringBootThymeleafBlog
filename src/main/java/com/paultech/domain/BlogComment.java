@@ -1,5 +1,7 @@
 package com.paultech.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +14,9 @@ public class BlogComment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotEmpty
     private String content;
+    @Temporal(TemporalType.DATE)
     private Date commentDate;
 
     @ManyToOne

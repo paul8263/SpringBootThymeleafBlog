@@ -6,18 +6,18 @@
     <title></title>
 </head>
 <body>
-<div th:fragment="comment-item" class="comment-item">
+<div th:fragment="comment-item(blogComment)" class="comment-item">
     <div class="comment-item-info">
         <div class="author">
             <p>Paul</p>
         </div>
         <div class="date">
-            <p>01/10/2016</p>
+            <p th:text="${blogComment.commentDate}">01/10/2016</p>
         </div>
         <div class="clear-fix"></div>
     </div>
     <div class="comment-item-content">
-        <p>
+        <p th:text="${blogComment.content}">
             Lorem ipsum dolor sit amet, vim an tritani suscipit inciderint. Ea mel decore eruditi, has illum eloquentiam cu, vel ornatus expetenda expetendis ex. Impetus perfecto te mea. Cu perpetua euripidis pri, sea facete antiopam erroribus ad. Cu vix omnesque persecuti.
         </p>
     </div>

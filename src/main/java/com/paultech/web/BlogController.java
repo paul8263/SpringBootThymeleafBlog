@@ -2,6 +2,7 @@ package com.paultech.web;
 
 import com.paultech.domain.Blog;
 import com.paultech.domain.BlogComment;
+import com.paultech.service.BlogCommentRepo;
 import com.paultech.service.BlogRepo;
 import com.paultech.web.exceptions.ItemNotFoundException;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -25,6 +26,9 @@ public class BlogController {
     @Autowired
     private BlogRepo blogRepo;
 
+    @Autowired
+    private BlogCommentRepo blogCommentRepo;
+
     @GetMapping
     public String displayBlog(Model model) {
         List<Blog> blogList = blogRepo.findAll();
@@ -33,9 +37,11 @@ public class BlogController {
     }
 
     @GetMapping(value = "/{blogId}")
-    public String displayBlogDetail(@PathVariable long blogId, Model model) {
+    public String displayBlogDetail(@PathVariable long blogId, Model model) throws ItemNotFoundException {
         Blog blog = blogRepo.findOne(blogId);
+        if (null == blog) throw new ItemNotFoundException();
         model.addAttribute("blog", blog);
+        model.addAttribute("blogComment", new BlogComment());
         return "blogDetail";
     }
 
@@ -84,17 +90,23 @@ public class BlogController {
 //    public String deleteBlog(@PathVariable long blogId) {
 //
 //    }
-//    @PostMapping(value = "/{blogId}/comment")
-//    public String createComment(@ModelAttribute BlogComment blogComment, @PathVariable long BlogId, BindingResult result) {
-//
-//    }
-//
-//    @PostMapping(value = "/{blogId}/comment/{commentId}")
-//    public String modifyComment(@ModelAttribute BlogComment blogComment, @PathVariable long BlogId, @PathVariable long commentId, BindingResult result) {
-//
-//    }
-//
-//    @GetMapping(value = "/{blogId}/comment/{commentId}/delete")
+    @PostMapping(value = "/{blogId}/comment")
+    public String createComment(@PathVariable long blogId, @ModelAttribute @Valid BlogComment blogComment, BindingResult result, Model model) throws ItemNotFoundException {
+        Blog blog = blogRepo.findOne(blogId);
+        if (null == blog) throw new ItemNotFoundException();
+        if (result.hasErrors()) {
+            model.addAttribute("blog", blog);
+            model.addAttribute("blogComment", blogComment);
+            return "blogDetail";
+        }
+        blogComment.setCommentedBlog(blog);
+        blogComment.setCommentDate(new Date());
+        blogCommentRepo.save(blogComment);
+        return "redirect:/blog/" + blogId;
+    }
+
+
+//    @GetMapping(value = "/comment/{commentId}/delete")
 //    public String deleteComment(@PathVariable long BlogId, @PathVariable long commentId) {
 //
 //    }
