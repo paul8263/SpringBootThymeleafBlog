@@ -7,6 +7,7 @@ import com.paultech.web.exceptions.UnauthorizedException;
 import com.paultech.web.helpers.IUserHelper;
 import com.paultech.web.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -81,7 +79,28 @@ public class UserController {
         return "settings";
     }
 
-//    @PostMapping
-//    public String modifyUser() {}
+    @GetMapping(value = "/settings/password")
+    public String displayChangePasswordPage(@RequestParam(required = false) String error , Model model) {
+        model.addAttribute("error", error);
+        return "changePassword";
+    }
+
+    @PostMapping(value = "/settings/password")
+    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) {
+        final int MINLENGTH = 6;
+        final int MAXLENGTH = 16;
+
+        if (!newPassword.equals(newPassword2)) return "redirect:/user/settings/password?error=confirm";
+
+        if (newPassword.length() < MINLENGTH || newPassword.length() > MAXLENGTH) return "redirect:/user/settings/password?error=new";
+
+        User user = userHelper.getUserFromAuthentication();
+        if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) return "redirect:/user/settings/password?error=old";
+
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userRepo.save(user);
+
+        return "redirect:/user/settings";
+    }
 
 }
