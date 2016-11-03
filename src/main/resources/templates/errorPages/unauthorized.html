@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="root">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{unauthorized.title}">Unauthorized</title>
+    <link rel="stylesheet" th:href="@{/css/pages/errorPage.css}"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="error-msg-wrapper">
+        <div class="error-msg">
+            <p th:text="#{unauthorized.error_msg}">Unauthorized</p>
+            <p><a th:href="@{/}" th:text="#{unauthorized.to_home_page}">Click me to Home page</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
