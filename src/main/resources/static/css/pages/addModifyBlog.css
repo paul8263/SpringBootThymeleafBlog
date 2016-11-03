@@ -79,3 +79,12 @@
     color: red;
 }
 
+@media screen and (max-width: 500px) {
+    .form-wrapper .field-wrapper {
+        margin: 10px 20px;
+        width: 100%;
+    }
+    .form-wrapper .field-wrapper .text-field {
+        width: 90%;
+    }
+}

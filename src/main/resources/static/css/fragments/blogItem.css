@@ -42,7 +42,6 @@
 
 .blog-wrapper .title-wrapper .title a {
     color: black;
-    font-family: Arial;
     font-size: 40px;
     font-style: italic;
     text-decoration: none;
@@ -64,6 +63,7 @@
     position: relative;
     box-sizing: border-box;
     width: auto;
+    height: auto;
 }
 
 .blog-wrapper .footer-wrapper .author {
@@ -77,26 +77,26 @@
     margin-left: 30px;
 }
 .blog-wrapper .footer-wrapper .delete a {
-    font-family: Arial;
     text-decoration: none;
     color: red;
     font-weight: bold;
 }
 
 .blog-wrapper .footer-wrapper .date {
-    position: absolute;
-    right: 100px;
+    right: 10px;
     margin-bottom: 20px;
-    float: left;
+    float: right;
 }
 
 .blog-wrapper > p {
-    font-family: Arial;
     padding: 20px;
 }
 
 @media screen and (max-width: 799px) {
     .blog-wrapper .title-wrapper .img-wrapper {
         left: 15px;
+    }
+    .blog-wrapper .title-wrapper .title a {
+        font-size: 30px;
     }
 }

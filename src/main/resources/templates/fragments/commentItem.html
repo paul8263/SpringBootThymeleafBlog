@@ -15,7 +15,7 @@
             <a th:href="@{'/blog/' + ${blogComment.commentedBlog.id} + '/comment/' + ${blogComment.id} + '/delete'}" th:text="#{comment_item.delete_comment}">Delete comment</a>
         </div>
         <div class="date">
-            <p th:text="${blogComment.commentDate}">01/10/2016</p>
+            <p th:text="${#dates.format(blogComment.commentDate, 'yyyy/MM/dd HH:mm:ss')}">01/10/2016</p>
         </div>
         <div class="clear-fix"></div>
     </div>

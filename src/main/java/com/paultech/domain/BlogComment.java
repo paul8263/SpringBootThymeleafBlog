@@ -16,7 +16,7 @@ public class BlogComment implements Serializable {
     private long id;
     @NotEmpty
     private String content;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date commentDate;
 
     @ManyToOne

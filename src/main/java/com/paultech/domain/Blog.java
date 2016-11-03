@@ -20,9 +20,9 @@ public class Blog implements Serializable {
     private String title;
     @NotEmpty
     private String content;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
 
     @ManyToOne

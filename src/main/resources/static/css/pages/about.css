@@ -13,3 +13,7 @@
 .about-content {
     padding: 20px;
 }
+.about-content .about-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}

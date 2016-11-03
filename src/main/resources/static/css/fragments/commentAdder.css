@@ -17,11 +17,10 @@
     margin: 10px 20px;
     color: black;
     font-size: 20px;
-    font-family: Arial;
 }
 
 .comment-adder-wrapper .textarea-wrapper {
-    padding-left: 20px;
+    padding: 0 20px;
     margin: 10px 20px;
 }
 
@@ -73,4 +72,22 @@
     font-family: Arial;
     font-weight: bold;
     color: red;
+}
+
+@media screen and (max-width: 500px) {
+    .comment-adder-wrapper .title-wrapper {
+        padding: 0;
+    }
+    .comment-adder-wrapper textarea {
+        width: 100%;
+    }
+    .comment-adder-wrapper .textarea-wrapper {
+        padding: 0;
+    }
+    .comment-adder-wrapper {
+        padding: 20px 0;
+    }
+    .comment-adder-wrapper .button-wrapper {
+        padding: 0;
+    }
 }

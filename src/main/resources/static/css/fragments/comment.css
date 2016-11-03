@@ -14,10 +14,9 @@
 
 .comment-wrapper .comment-block-title {
     padding-left: 20px;
-    margin: 10px 20px;
+    margin: 10px 0;
     color: black;
     font-size: 30px;
-    font-family: Arial;
 }
 
 .comment-wrapper .comment-content-block {
@@ -30,19 +29,20 @@
 }
 
 .comment-wrapper .comment-item .comment-item-content {
-    margin: 10px 40px;
+    margin: 10px 20px;
     font-size: 20px;
     color: dimgray;
 }
 
 .comment-wrapper .comment-item .comment-item-info {
     position: relative;
-    margin: 10px 50px;
+    margin: 10px 20px;
     border-bottom: 1px dotted black;
+    width: auto;
+    height: auto;
 }
 .comment-wrapper .comment-item .comment-item-info .author {
     float: left;
-    margin-left: 10px;
 }
 
 .comment-wrapper .comment-item .comment-item-info .delete {
@@ -51,19 +51,37 @@
 }
 
 .comment-wrapper .comment-item .comment-item-info .delete a {
-    font-family: Arial;
     text-decoration: none;
     color: red;
     font-weight: bold;
 }
 
 .comment-wrapper .comment-item .comment-item-info .date {
-    float: left;
-    position: absolute;
-    right: 100px;
-    /*margin-bottom: 10px;*/
+    float: right;
+    right: 10px;
 }
 
 .comment-wrapper .no-comment-wraper {
     margin: 20px 40px;
+}
+
+@media screen and (max-width: 500px) {
+    .comment-wrapper .comment-block-title {
+        font-size: 20px;
+    }
+    .comment-wrapper {
+        padding: 5px 20px;
+    }
+    .comment-wrapper .comment-block-title {
+        padding: 0;
+    }
+    .comment-wrapper .comment-item {
+        /*padding: 10px 0;*/
+    }
+    .comment-wrapper .comment-item .comment-item-content {
+        margin: 10px 0;
+    }
+    .comment-wrapper .comment-item .comment-item-info {
+        margin: 10px 0;
+    }
 }
