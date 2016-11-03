@@ -8,14 +8,14 @@
 <body>
     <div th:fragment="comment(blogCommentList)" class="comment-wrapper">
         <div class="comment-block-title">
-            <p>Comments</p>
+            <p th:text="#{comment.comment_block_title}">Comments</p>
         </div>
         <div class="comment-content-block">
             <th:block th:each="blogComment : ${blogCommentList}">
-                <div th:replace="fragments/comment-item :: comment-item(${blogComment})"></div>
+                <div th:replace="fragments/commentItem :: commentItem(${blogComment})"></div>
             </th:block>
             <div th:if="${#lists.isEmpty(blogCommentList)}" class="no-comment-wraper">
-                <p>There are no comments</p>
+                <p th:text="#{comment.no_comment}">There are no comments</p>
             </div>
         </div>
     </div>

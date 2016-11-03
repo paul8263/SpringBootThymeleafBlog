@@ -9,7 +9,7 @@
     <div th:fragment="commentAdder(blogComment, postLink)" class="comment-adder-wrapper">
     <!--<div th:fragment="commentAdder" class="comment-adder-wrapper">-->
         <div class="title-wrapper">
-            <p>Leave your comment here</p>
+            <p th:text="#{comment_adder.title_wrapper}">Leave your comment here</p>
         </div>
         <form th:action="@{${postLink}}" method="post" th:object="${blogComment}">
             <div class="textarea-wrapper">
@@ -17,8 +17,8 @@
                 <textarea th:field="*{content}" cols="30" rows="10"></textarea>
             </div>
             <div class="button-wrapper">
-                <input type="submit" value="Submit" class="button submit"/>
-                <input type="reset" value="Clear" class="button reset"/>
+                <input type="submit" value="Submit" class="button submit" th:value="#{comment_adder.form.submit.value}"/>
+                <input type="reset" value="Clear" class="button reset" th:value="#{comment_adder.form.reset.value}"/>
             </div>
         </form>
     </div>

@@ -5,7 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
-    <title>Blog</title>
+    <title th:text="#{blog.title}">Blog</title>
 
     <link rel="stylesheet" th:href="@{/css/fragments/blogItem.css}"/>
     <link rel="stylesheet" th:href="@{/css/pages/blog.css}"/>
@@ -13,7 +13,7 @@
 <body>
 <div layout:fragment="content">
     <div class="add-blog-wrapper" th:if="${displayAddBlogLink == true}">
-        <a th:href="@{/blog/new}">Add new Blog</a>
+        <a th:href="@{/blog/new}" th:text="#{blog.add_new_blog}">Add New Blog</a>
     </div>
     <th:block th:each="blog : ${blogList}">
         <div th:replace="fragments/blogItem :: blog(${blog})"></div>

@@ -6,13 +6,13 @@
     <title></title>
 </head>
 <body>
-<div th:fragment="comment-item(blogComment)" class="comment-item">
+<div th:fragment="commentItem(blogComment)" class="comment-item">
     <div class="comment-item-info">
         <div class="author">
             <p th:text="${blogComment.commenter.email}">Paul</p>
         </div>
         <div class="delete" th:if="${#authentication.name == blogComment.commenter.email}">
-            <a th:href="@{'/blog/' + ${blogComment.commentedBlog.id} + '/comment/' + ${blogComment.id} + '/delete'}">Delete comment</a>
+            <a th:href="@{'/blog/' + ${blogComment.commentedBlog.id} + '/comment/' + ${blogComment.id} + '/delete'}" th:text="#{comment_item.delete_comment}">Delete comment</a>
         </div>
         <div class="date">
             <p th:text="${blogComment.commentDate}">01/10/2016</p>

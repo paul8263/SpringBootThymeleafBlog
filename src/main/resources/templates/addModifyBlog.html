@@ -5,7 +5,7 @@
       layout:decorator="root">
 <head>
     <meta charset="UTF-8"/>
-    <title>Add/Modify Blog</title>
+    <title th:text="#{add_modify_blog.title}">Add/Modify Blog</title>
     <link rel="stylesheet" th:href="@{/css/pages/addModifyBlog.css}"/>
 </head>
 <body>
@@ -13,22 +13,21 @@
         <div class="form-wrapper">
             <form th:action="@{${isAdding ? '/blog/new' : '/blog/'+ blog.id + '/modify'}}" method="post" th:object="${blog}">
                 <div class="field-wrapper">
-                    <label for="title">Blog title:</label>
-                    <input type="text" id="title" th:field="*{title}" class="text-field" placeholder="Title"/>
+                    <label for="title" th:text="#{add_modify_blog.form.blog_title}">Blog title:</label>
+                    <input type="text" id="title" th:field="*{title}" class="text-field" placeholder="Title" th:placeholder="#{add_modify_blog.form.title.placeholder}"/>
                     <p class="error-msg" th:errors="*{title}">Title cannot be empty</p>
                 </div>
                 <div class="field-wrapper">
-                    <label for="content">Blog content:</label>
+                    <label for="content" th:text="#{add_modify_blog.form.blog_content}">Blog content:</label>
                     <p class="error-msg" th:errors="*{content}">Content cannot be empty</p>
-                    <textarea name="" id="content" cols="30" rows="10" th:field="*{content}" class="text-field textarea" placeholder="What you want to say"></textarea>
+                    <textarea id="content" cols="30" rows="10" th:field="*{content}" class="text-field textarea" placeholder="What you want to say" th:placeholder="#{add_modify_blog.form.content.placeholder}"></textarea>
                 </div>
                 <input type="hidden" th:field="*{id}"/>
                 <div class="field-wrapper">
-                    <input type="submit" value="Submit" class="button submit"/>
-                    <input type="reset" value="Clear" class="button reset"/>
-                    <a th:href="@{/blog}" class="button cancel">Cancel</a>
+                    <input type="submit" value="Submit" class="button submit" th:value="#{add_modify_blog.submit.value}"/>
+                    <input type="reset" value="Clear" class="button reset" th:value="#{add_modify_blog.form.reset.value}"/>
+                    <a th:href="@{/blog}" class="button cancel" th:text="#{add_modify_blog.form.cancel}">Cancel</a>
                 </div>
-                <div class="clear-fix"></div>
             </form>
         </div>
     </div>

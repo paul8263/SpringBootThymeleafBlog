@@ -5,7 +5,7 @@
       layout:decorator="root">
 <head>
     <meta charset="UTF-8"/>
-    <title>Log In</title>
+    <title th:text="#{login.title}">Log In</title>
     <link rel="stylesheet" th:href="@{/css/pages/login.css}"/>
 </head>
 <body>
@@ -13,18 +13,18 @@
     <div class="img-block">
         <form th:action="@{/login}" method="post">
             <div class="element email-wrapper">
-                <input type="text" name="email" class="textfield" placeholder="Email"/>
+                <input type="text" name="email" class="textfield" placeholder="Email" th:placeholder="#{login.form.email.placeholder}"/>
             </div>
 
             <div class="element password-wrapper">
-                <input type="password" name="password" class="textfield" placeholder="Password"/>
+                <input type="password" name="password" class="textfield" placeholder="Password" th:placeholder="#{login.form.password.placeholder}"/>
             </div>
             <div th:if="${error != null}" class="login-error-wrapper">
-                <p>Email or password error</p>
+                <p th:text="#{login.form.login_error}">Email or password error</p>
             </div>
             <div class="element button-wrapper">
-                <input type="submit" class="link login" value="Log in"/>
-                <a th:href="@{/signup}" class="link sign-up">Sign Up</a>
+                <input type="submit" class="link login" value="Log in" th:value="#{login.form.submit.value}"/>
+                <a th:href="@{/signup}" class="link sign-up" th:text="#{login.form.sign_up}">Sign Up</a>
             </div>
         </form>
     </div>

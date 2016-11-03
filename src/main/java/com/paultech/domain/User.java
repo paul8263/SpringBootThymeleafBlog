@@ -24,7 +24,6 @@ public class User implements Serializable {
     @Email(message = "Invalid email address")
     private String email;
 
-    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
     @Transient
