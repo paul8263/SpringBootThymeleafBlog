@@ -1,0 +1,15 @@
+.about-wrapper {
+    margin: 20px 0;
+    width: 100%;
+    background-color: #F1F1F1;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+    -webkit-border-radius: 5px 5px;
+    -moz-border-radius: 5px 5px;
+    border-radius: 5px 5px;
+    padding: 10px 20px;
+}
+.about-content {
+    padding: 20px;
+}

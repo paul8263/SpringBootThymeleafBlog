@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="pager(blogList)" class="pager">
+        <ul>
+            <li><a th:href="@{'?page=' + ${blogList.hasPrevious() ? blogList.getNumber() - 1 : 0} + '&amp;size=10'}">&lt;</a></li>
+            <li><a href="#" th:if="${blogList.getNumber() - 3 &gt;0}">...</a></li>
+            <th:block th:each="pageNumber : ${#numbers.sequence(blogList.getNumber() - 3, blogList.getNumber() + 3)}">
+                <li><a th:href="@{'?page=' + ${pageNumber} + '&amp;size=10'}" th:if="${pageNumber &gt;= 0 and pageNumber &lt; blogList.getTotalPages()}" th:text="${pageNumber + 1}" th:class="${blogList.getNumber() == pageNumber}? 'active' : ''"></a></li>
+            </th:block>
+            <li><a href="#" th:if="${blogList.getNumber() + 3 &lt; blogList.getTotalPages()}">...</a></li>
+            <li><a th:href="@{'?page=' + ${blogList.hasNext() ? blogList.getNumber() + 1 : blogList.getTotalPages() - 1} + '&amp;size=10'}">&gt;</a></li>
+        </ul>
+    </div>
+</body>
+</html>

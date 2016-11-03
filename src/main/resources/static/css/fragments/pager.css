@@ -1,0 +1,32 @@
+.pager {
+    text-align: center;
+}
+
+.pager ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.pager ul li {
+    display: inline;
+    /*border: 1px black solid;*/
+    margin: 0;
+}
+
+.pager ul li a {
+    text-decoration: none;
+    float: left;
+    color: black;
+    padding: 5px 10px;
+}
+
+.pager ul li a:hover {
+    background-color: #c8c8c8;
+}
+
+.pager ul li a.active {
+    background-color: #1B9CE2;
+    color: white;
+}

@@ -38,7 +38,7 @@
             <input id="showMenuItemToggle" type="checkbox"/>
             <div class="menu-item-wrapper">
                 <li class="menu-item"><a th:href="@{/}" th:text="#{root.navbar.home}">Home</a></li>
-                <li class="menu-item"><a th:href="@{/blog/my}" th:text="#{root.navbar.my_blog}">My Blog</a></li>
+                <li class="menu-item"><a th:href="@{/blog/my(page=0, size=10)}" th:text="#{root.navbar.my_blog}">My Blog</a></li>
                 <li class="menu-item"><a th:href="@{/user/settings}" th:text="#{root.navbar.settings}">Settings</a></li>
                 <li class="menu-item"><a th:href="@{/about}" th:text="#{root.navbar.about}">About</a></li>
                 <li class="menu-item" th:if="${#authentication.name != 'anonymousUser'}"><a onclick="submit()" th:text="#{root.navbar.log_out}">Log Out</a></li>

@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" th:href="@{/css/fragments/blogItem.css}"/>
     <link rel="stylesheet" th:href="@{/css/pages/blog.css}"/>
+    <link rel="stylesheet" th:href="@{/css/fragments/pager.css}"/>
 </head>
 <body>
 <div layout:fragment="content">
@@ -20,6 +21,9 @@
     </th:block>
     <div th:if="${#lists.size(blogList) == 0}">
         <div th:replace="fragments/blogItem :: noBlogHint"></div>
+    </div>
+    <div class="pager-wrapper">
+        <div th:replace="fragments/pager :: pager(${blogList})"></div>
     </div>
 </div>
 </body>

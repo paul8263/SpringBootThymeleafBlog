@@ -10,6 +10,8 @@ import com.paultech.web.exceptions.UnauthorizedException;
 import com.paultech.web.helpers.IUserHelper;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,18 +38,20 @@ public class BlogController {
     private IUserHelper userHelper;
 
     @GetMapping
-    public String displayAllBlog(Model model) {
-        List<Blog> blogList = blogRepo.findAll();
+    public String displayAllBlog(Pageable pageable, Model model) {
+//        List<Blog> blogList = blogRepo.findAll();
+        Page<Blog> blogList = blogRepo.findByOrderByModifyDateDesc(pageable);
         model.addAttribute("blogList", blogList);
         model.addAttribute("displayAddBlogLink", false);
         return "blog";
     }
 
     @GetMapping(value = "/my")
-    public String displayMyBlog(Model model) throws UnauthorizedException {
+    public String displayMyBlog(Pageable pageable, Model model) throws UnauthorizedException {
         User user = userHelper.getUserFromAuthentication();
         if (null == user) throw new UnauthorizedException();
-        List<Blog> blogList = blogRepo.findByUserEmail(user.getEmail());
+//        List<Blog> blogList = blogRepo.findByUserEmail(user.getEmail());
+        Page<Blog> blogList = blogRepo.findByUserEmailOrderByModifyDateDesc(user.getEmail(), pageable);
         model.addAttribute("blogList", blogList);
         model.addAttribute("displayAddBlogLink", true);
         return "blog";
