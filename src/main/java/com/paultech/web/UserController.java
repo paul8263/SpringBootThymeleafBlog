@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,9 +45,14 @@ public class UserController {
     @Autowired
     private IUserHelper userHelper;
 
+    @InitBinder
+    public void bindValidator(WebDataBinder binder) {
+        binder.addValidators(userValidator);
+    }
+
     @PostMapping
     public String signUp(@ModelAttribute @Valid User user, BindingResult result) {
-        userValidator.validate(user, result);
+//        userValidator.validate(user, result);
         User existedUser = userRepo.findByEmail(user.getEmail());
         if (existedUser != null) {
             result.rejectValue("email", "NotValid", "This email has already been registered");
