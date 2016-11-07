@@ -12,6 +12,8 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,28 +40,25 @@ public class BlogController {
     private IUserHelper userHelper;
 
     @GetMapping
-    public String displayAllBlog(Pageable pageable, Model model) {
-//        List<Blog> blogList = blogRepo.findAll();
-        Page<Blog> blogList = blogRepo.findByOrderByModifyDateDesc(pageable);
+    public String displayAllBlog(@PageableDefault(direction = Sort.Direction.DESC, sort = "modifyDate") Pageable pageable, Model model) {
+        Page<Blog> blogList = blogRepo.findAll(pageable);
         model.addAttribute("blogList", blogList);
         model.addAttribute("displayAddBlogLink", false);
         return "blog";
     }
 
     @GetMapping(value = "/my")
-    public String displayMyBlog(Pageable pageable, Model model) throws UnauthorizedException {
+    public String displayMyBlog(@PageableDefault(direction = Sort.Direction.DESC, sort = "modifyDate") Pageable pageable, Model model) throws UnauthorizedException {
         User user = userHelper.getUserFromAuthentication();
-        if (null == user) throw new UnauthorizedException();
-//        List<Blog> blogList = blogRepo.findByUserEmail(user.getEmail());
-        Page<Blog> blogList = blogRepo.findByUserEmailOrderByModifyDateDesc(user.getEmail(), pageable);
+
+        Page<Blog> blogList = blogRepo.findAll(pageable);
         model.addAttribute("blogList", blogList);
         model.addAttribute("displayAddBlogLink", true);
         return "blog";
     }
 
     @GetMapping(value = "/{blogId}")
-    public String displayBlogDetail(@PathVariable long blogId, Model model) throws ItemNotFoundException {
-        Blog blog = blogRepo.findOne(blogId);
+    public String displayBlogDetail(@PathVariable("blogId") Blog blog, Model model) throws ItemNotFoundException {
         if (null == blog) throw new ItemNotFoundException();
         model.addAttribute("blog", blog);
         model.addAttribute("blogComment", new BlogComment());
@@ -67,8 +66,7 @@ public class BlogController {
     }
 
     @GetMapping(value = "/{blogId}/modify")
-    public String modifyBlog(@PathVariable long blogId, Model model) throws ItemNotFoundException {
-        Blog blog = blogRepo.findOne(blogId);
+    public String displayModifyBlog(@PathVariable("blogId") Blog blog, Model model) throws ItemNotFoundException {
         if (null == blog) throw new ItemNotFoundException();
         model.addAttribute("blog", blog);
         model.addAttribute("isAdding", false);
@@ -76,14 +74,20 @@ public class BlogController {
     }
 
     @PostMapping(value = "/{blogId}/modify")
-    public String modifyBlog(@ModelAttribute @Valid Blog blog, BindingResult result, Model model) {
+    public String modifyBlog(@ModelAttribute("blog") @Valid Blog newBlog,@PathVariable("blogId") Blog oldBlog, BindingResult result, Model model) throws UnauthorizedException, ItemNotFoundException {
         if (result.hasErrors()) {
             model.addAttribute("isAdding", false);
             return "addModifyBlog";
         }
-        blog.setModifyDate(new Date());
-        blogRepo.save(blog);
-        return "redirect:/blog";
+        if (null == oldBlog) throw new ItemNotFoundException();
+        User user = userHelper.getUserFromAuthentication();
+        if (oldBlog.getUser() != user) throw new UnauthorizedException();
+
+        oldBlog.setTitle(newBlog.getTitle());
+        oldBlog.setContent(newBlog.getContent());
+        oldBlog.setModifyDate(new Date());
+        blogRepo.save(oldBlog);
+        return "redirect:/blog/" + oldBlog.getId();
     }
 
     @PostMapping(value = "/new")
@@ -116,8 +120,7 @@ public class BlogController {
     }
 
     @PostMapping(value = "/{blogId}/comment")
-    public String createComment(@PathVariable long blogId, @ModelAttribute @Valid BlogComment blogComment, BindingResult result, Model model) throws ItemNotFoundException, UnauthorizedException {
-        Blog blog = blogRepo.findOne(blogId);
+    public String createComment(@PathVariable("blogId") Blog blog, @ModelAttribute @Valid BlogComment blogComment, BindingResult result, Model model) throws ItemNotFoundException, UnauthorizedException {
         if (null == blog) throw new ItemNotFoundException();
         if (result.hasErrors()) {
             model.addAttribute("blog", blog);
@@ -132,7 +135,7 @@ public class BlogController {
         blogComment.setCommentedBlog(blog);
         blogComment.setCommentDate(new Date());
         blogCommentRepo.save(blogComment);
-        return "redirect:/blog/" + blogId;
+        return "redirect:/blog/" + blog.getId();
     }
 
 

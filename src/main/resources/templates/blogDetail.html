@@ -12,7 +12,7 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:replace="fragments/blogItem :: blog(${blog})"></div>
+    <div th:replace="fragments/blogItem :: blogItem(${blog})"></div>
     <div th:replace="fragments/comment :: comment(${blog.commentList})"></div>
     <th:block th:if="${#authentication.name != 'anonymousUser'}">
         <div th:replace="fragments/commentAdder :: commentAdder(${blogComment},'/blog/' + ${blog.id} + '/comment')"></div>

@@ -92,7 +92,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/settings/password")
-    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) {
+    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) throws UnauthorizedException {
         final int MINLENGTH = 6;
         final int MAXLENGTH = 16;
 

@@ -17,7 +17,7 @@
         <a th:href="@{/blog/new}" th:text="#{blog.add_new_blog}">Add New Blog</a>
     </div>
     <th:block th:each="blog : ${blogList}">
-        <div th:replace="fragments/blogItem :: blog(${blog})"></div>
+        <div th:replace="fragments/blogItem :: blogItem(${blog})"></div>
     </th:block>
     <div th:if="${#lists.size(blogList) == 0}">
         <div th:replace="fragments/blogItem :: noBlogHint"></div>

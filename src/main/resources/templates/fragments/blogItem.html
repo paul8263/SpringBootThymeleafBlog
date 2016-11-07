@@ -6,13 +6,13 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:fragment="blog(blog)" class="blog-wrapper">
+    <div th:fragment="blogItem(blog)" class="blog-wrapper">
         <div class="title-wrapper">
             <div class="img-wrapper">
                 <img src="" alt="" class="blog-img"/>
             </div>
             <div class="title">
-                <a th:href="@{'/blog/' + ${blog.id}}" th:text="${blog.title}">Title</a>
+                <a th:href="@{${#authentication.name == blog.user.email}? '/blog/' + ${blog.id} + '/modify' :  '/blog/' + ${blog.id}}" th:text="${blog.title}">Title</a>
             </div>
         </div>
         <div class="body-wrapper">

@@ -2,6 +2,7 @@ package com.paultech.web.helpers;
 
 import com.paultech.domain.User;
 import com.paultech.service.UserRepo;
+import com.paultech.web.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +18,11 @@ public class UserHelper implements IUserHelper {
     private UserRepo userRepo;
 
     @Override
-    public User getUserFromAuthentication() {
+    public User getUserFromAuthentication() throws UnauthorizedException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        return userRepo.findByEmail(userEmail);
+        User user = userRepo.findByEmail(userEmail);
+        if (null == user) throw new UnauthorizedException("User is not authenticated");
+        else return userRepo.findByEmail(userEmail);
     }
 }
