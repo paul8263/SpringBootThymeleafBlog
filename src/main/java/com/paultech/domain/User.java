@@ -29,10 +29,10 @@ public class User implements Serializable {
     @Transient
     private String password2;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Blog> blogList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "commenter")
+    @OneToMany(mappedBy = "commenter", fetch = FetchType.LAZY)
     private List<BlogComment> commentList = new ArrayList<>();
 
     public long getId() {
