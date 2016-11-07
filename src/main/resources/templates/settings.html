@@ -12,11 +12,11 @@
     <div layout:fragment="content">
         <div class="content-wrapper">
             <div class="greetings-wrapper">
-                <p class="greetings">Hello <span th:text="${#authentication.name}"></span></p>
+                <p class="greetings"> <span th:text="#{settings.greetings}">Hello</span> <span th:text="${#authentication.name}"></span></p>
             </div>
             <div class="operations">
-                <p>Operations:</p>
-                <a th:href="@{/user/settings/password}">Change Password</a>
+                <p th:text="#{settings.operations}">Operations:</p>
+                <a th:href="@{/user/settings/password}" th:text="#{settings.change_password}">Change Password</a>
             </div>
 
         </div>

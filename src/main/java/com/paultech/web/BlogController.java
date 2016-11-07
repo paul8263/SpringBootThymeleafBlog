@@ -8,7 +8,6 @@ import com.paultech.service.BlogRepo;
 import com.paultech.web.exceptions.ItemNotFoundException;
 import com.paultech.web.exceptions.UnauthorizedException;
 import com.paultech.web.helpers.IUserHelper;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by paulzhang on 28/10/2016.
@@ -66,15 +64,17 @@ public class BlogController {
     }
 
     @GetMapping(value = "/{blogId}/modify")
-    public String displayModifyBlog(@PathVariable("blogId") Blog blog, Model model) throws ItemNotFoundException {
+    public String displayModifyBlog(@PathVariable("blogId") Blog blog, Model model) throws ItemNotFoundException, UnauthorizedException {
         if (null == blog) throw new ItemNotFoundException();
+        User user = userHelper.getUserFromAuthentication();
+        if (blog.getUser() != user) throw new UnauthorizedException();
         model.addAttribute("blog", blog);
         model.addAttribute("isAdding", false);
         return "addModifyBlog";
     }
 
     @PostMapping(value = "/{blogId}/modify")
-    public String modifyBlog(@ModelAttribute("blog") @Valid Blog newBlog,@PathVariable("blogId") Blog oldBlog, BindingResult result, Model model) throws UnauthorizedException, ItemNotFoundException {
+    public String modifyBlog(@ModelAttribute("blog") @Valid Blog newBlog, @PathVariable("blogId") Blog oldBlog, BindingResult result, Model model) throws UnauthorizedException, ItemNotFoundException {
         if (result.hasErrors()) {
             model.addAttribute("isAdding", false);
             return "addModifyBlog";
@@ -114,8 +114,11 @@ public class BlogController {
     }
 
     @GetMapping(value = "/{blogId}/delete")
-    public String deleteBlog(@PathVariable long blogId) {
-        blogRepo.delete(blogId);
+    public String deleteBlog(@PathVariable("blogId") Blog blog) throws ItemNotFoundException, UnauthorizedException {
+        if (null == blog) throw new ItemNotFoundException();
+        User user = userHelper.getUserFromAuthentication();
+        if (blog.getUser() != user) throw new UnauthorizedException();
+        blogRepo.delete(blog);
         return "redirect:/blog";
     }
 
@@ -140,8 +143,11 @@ public class BlogController {
 
 
     @GetMapping(value = "/{blogId}/comment/{commentId}/delete")
-    public String deleteComment(@PathVariable long blogId, @PathVariable long commentId) {
-        blogCommentRepo.delete(commentId);
+    public String deleteComment(@PathVariable long blogId, @PathVariable("commentId") BlogComment blogComment) throws ItemNotFoundException, UnauthorizedException {
+        if (null == blogComment) throw new ItemNotFoundException();
+        User user = userHelper.getUserFromAuthentication();
+        if (blogComment.getCommenter() != user) throw new UnauthorizedException();
+        blogCommentRepo.delete(blogComment);
         return "redirect:/blog/" + blogId;
     }
 

@@ -3,7 +3,6 @@ package com.paultech.web.validators;
 import com.paultech.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**

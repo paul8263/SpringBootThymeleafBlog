@@ -7,7 +7,6 @@ import com.paultech.web.exceptions.UnauthorizedException;
 import com.paultech.web.helpers.IUserHelper;
 import com.paultech.web.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

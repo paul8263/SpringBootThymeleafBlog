@@ -12,7 +12,7 @@
                 <img src="" alt="" class="blog-img"/>
             </div>
             <div class="title">
-                <a th:href="@{${#authentication.name == blog.user.email}? '/blog/' + ${blog.id} + '/modify' :  '/blog/' + ${blog.id}}" th:text="${blog.title}">Title</a>
+                <a th:href="@{'/blog/' + ${blog.id}}" th:text="${blog.title}">Title</a>
             </div>
         </div>
         <div class="body-wrapper">
@@ -28,7 +28,8 @@
                 <p th:text="${blog.user == null ? 'Anonymous' : blog.user.email}">Paul</p>
             </div>
             <div class="delete" th:if="${#authentication.name == blog.user.email}">
-                <a th:href="@{'/blog/' + ${blog.id} + '/delete'}" th:text="#{blog_item.delete_this_blog}">Delete this blog</a>
+                <a th:href="@{'/blog/' + ${blog.id} + '/delete'}" th:text="#{blog_item.delete_blog}">Delete this blog</a>
+                <a th:href="@{'/blog/' + ${blog.id} + '/modify'}" th:if="${#authentication.name == blog.user.email}" th:text="#{blog_item.modify_blog}">Modify</a>
             </div>
             <div class="date">
                 <p th:text="${#dates.format(blog.modifyDate, 'yyyy/MM/dd HH:mm:ss')}">01/10/2016</p>

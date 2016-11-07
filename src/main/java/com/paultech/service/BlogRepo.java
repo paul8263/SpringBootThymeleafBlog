@@ -14,7 +14,5 @@ import java.util.List;
 @Service
 public interface BlogRepo extends JpaRepository<Blog, Long> {
     List<Blog> findByUserEmail(String email);
-    Page<Blog> findByOrderByModifyDateDesc(Pageable pageable);
-    Page<Blog> findByUserEmailOrderByModifyDateDesc(String email, Pageable pageable);
     Page<Blog> findAll(Pageable pageable);
 }
