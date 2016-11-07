@@ -97,7 +97,6 @@ public class BlogController {
             return "addModifyBlog";
         }
         User user = userHelper.getUserFromAuthentication();
-        if (null == user) throw new UnauthorizedException();
 
         blog.setUser(user);
         blog.setCreateDate(new Date());
@@ -132,7 +131,6 @@ public class BlogController {
         }
 
         User user = userHelper.getUserFromAuthentication();
-        if (null == user) throw new UnauthorizedException();
 
         blogComment.setCommenter(user);
         blogComment.setCommentedBlog(blog);
