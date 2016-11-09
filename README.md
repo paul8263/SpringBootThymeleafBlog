@@ -1,6 +1,6 @@
 # Spring Boot Blog Project
 
-This project enables registered user to publish blog and leave comment on those blogs.
+This project enables registered users to publish blogs and leave comments on those blogs.
 
 ## Used Frameworks:
 1.  Spring Boot
@@ -14,6 +14,9 @@ This project enables registered user to publish blog and leave comment on those 
 
 *   Spring MVC Model Attribute
 *   Spring MVC Validator
+*   JUnit
+*   Spring MVC Test
+*   Spring Security Test
 *   JSR 303 Validator
 *   Spring Security Authentication
 *   Customized Error Page

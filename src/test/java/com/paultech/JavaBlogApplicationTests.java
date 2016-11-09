@@ -6,20 +6,30 @@ import com.paultech.domain.User;
 import com.paultech.service.BlogCommentRepo;
 import com.paultech.service.BlogRepo;
 import com.paultech.service.UserRepo;
+import com.paultech.web.helpers.IUserHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * Sample user and blog are created by testDataLoader
+ */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,13 +45,16 @@ public class JavaBlogApplicationTests {
 	private BlogCommentRepo blogCommentRepo;
 
 	@Autowired
+	private IUserHelper userHelper;
+
+	@Autowired
 	private WebApplicationContext wac;
 
 	private MockMvc mvc;
 
 	@Before
 	public void setup() {
-		mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+		mvc = MockMvcBuilders.webAppContextSetup(wac).apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
 
 	@Test
@@ -116,7 +129,115 @@ public class JavaBlogApplicationTests {
 
 	@Test
 	public void mainControllerTest() throws Exception {
-		mvc.perform(get("/")).andExpect(status().is(200)).andExpect(view().name("index"));
+		mvc.perform(get("/")).andExpect(status().is(302)).andExpect(redirectedUrl("/blog?page=0&size=10"));
+		mvc.perform(post("/")).andExpect(status().is4xxClientError());
+
+		mvc.perform(get("/about")).andExpect(status().isOk()).andExpect(view().name("about"));
+		mvc.perform(post("/about")).andExpect(status().is4xxClientError());
+
+		mvc.perform(get("/signup")).andExpect(status().isOk()).andExpect(view().name("signUp"));
+		mvc.perform(post("/signup")).andExpect(status().is4xxClientError());
+		mvc.perform(post("/logout")).andExpect(status().is4xxClientError());
+
+		mvc.perform(get("/login")).andExpect(status().isOk()).andExpect(view().name("login"));
+
+		mvc.perform(get("/blog")).andExpect(status().isOk()).andExpect(view().name("blog"));
 	}
 
+	@Test
+	public void blogAccessShouldDenyTest() throws Exception {
+		mvc.perform(get("/blog/my")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("http://localhost/login"));
+		mvc.perform(get("/blog/1/modify")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("http://localhost/login"));
+		mvc.perform(get("/blog/new")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("http://localhost/login"));
+		mvc.perform(post("/blog/new").param("title", "New Blog").param("content", "Content")).andExpect(status().is4xxClientError());
+		mvc.perform(get("/blog/1/delete")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("http://localhost/login"));
+	}
+
+	@Test
+	@WithMockUser(username = "anotherUser")
+	public void modifyDeleteBlogShouldDenyTest() throws Exception {
+		mvc.perform(get("/blog/1/delete")).andExpect(status().isOk()).andExpect(view().name("errorPages/unauthorized"));
+		mvc.perform(post("/blog/1/modify").param("title", "New title").param("content", "New content").with(csrf())).andExpect(status().isOk()).andExpect(view().name("errorPages/unauthorized"));
+	}
+
+	@Test
+	@WithMockUser
+	public void blogAccessUserNotFoundTest() throws Exception {
+		mvc.perform(get("/blog/my")).andExpect(status().isOk()).andExpect(view().name("errorPages/unauthorized"));
+	}
+
+	@Test
+	@WithMockUser(username = "123@123", password = "123456")
+	public void viewMyBlogTest() throws Exception {
+		mvc.perform(get("/blog/my")).andExpect(status().isOk()).andExpect(view().name("blog"));
+	}
+
+	@Test
+	@WithMockUser
+	public void blogNotFoundTest() throws Exception {
+		mvc.perform(get("/blog/4000")).andExpect(status().isOk()).andExpect(view().name("errorPages/itemNotFound"));
+	}
+
+	@Test
+	@WithMockUser(username = "123@123", password = "123456")
+	public void addBlogTest() throws Exception {
+//		System.out.println(((UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+//		User user = userRepo.findByEmail("123@123");
+//		Assert.assertNotNull(user);
+//		Assert.assertEquals(user.getEmail(), "123@123");
+		Assert.assertNotNull(userHelper);
+		Assert.assertNotNull(userHelper.getUserFromAuthentication());
+		mvc.perform(get("/blog/new")).andExpect(status().isOk()).andExpect(view().name("addModifyBlog"));
+		mvc.perform(post("/blog/new").param("title", "New Blog").param("content", "Blog Content").param("id", "0").with(csrf())).andExpect(redirectedUrl("/blog"));
+		mvc.perform(post("/blog/new").param("title", "New Blog").param("content", "Blog Content").param("id", "0").with(csrf().useInvalidToken())).andExpect(status().is4xxClientError());
+		mvc.perform(post("/blog/new").param("title", "New title").param("content", "").with(csrf())).andExpect(view().name("addModifyBlog"));
+		mvc.perform(post("/blog/new").param("title", "").param("content", "New Content").with(csrf())).andExpect(view().name("addModifyBlog"));
+		mvc.perform(post("/blog/1/modify").param("title", "New title").param("content", "New content").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/blog/1"));
+		mvc.perform(post("/blog/1/modify").param("title", "New title").param("content", "New content").with(csrf().useInvalidToken())).andExpect(status().is4xxClientError());
+		mvc.perform(post("/blog/0/modify").param("title", "New title").param("content", "New content").with(csrf())).andExpect(status().isOk()).andExpect(view().name("errorPages/itemNotFound"));
+	}
+
+	@Test
+	public void addCommentFailTest() throws Exception {
+		mvc.perform(post("/blog/1/comment").param("content", "comment")).andExpect(status().is4xxClientError());
+		mvc.perform(get("/blog/1/comment/delete")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("http://localhost/login"));
+	}
+
+	@Test
+	@WithMockUser(username = "123@123", password = "123456")
+	public void addCommentTest() throws Exception {
+		mvc.perform(post("/blog/1/comment").param("content", "comment").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/blog/1"));
+		mvc.perform(post("/blog/1/comment").param("content", "comment").with(csrf().useInvalidToken())).andExpect(status().is4xxClientError());
+		mvc.perform(post("/blog/1/comment").param("content", "").with(csrf())).andExpect(status().isOk()).andExpect(view().name("blogDetail"));
+		mvc.perform(get("/blog/1/comment/1/delete")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/blog/1"));
+	}
+
+	@Test
+	public void userRegistrationTest() throws Exception {
+//		User email already exists
+		mvc.perform(post("/user").param("email", "123@123").param("password", "password").param("password2", "password").with(csrf())).andExpect(view().name("signUp"));
+
+		mvc.perform(post("/user").param("email", "another@123").param("password", "password").param("password2", "password").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/blog"));
+		mvc.perform(post("/user").param("email", "another2@123").param("password", "password").param("password2", "password").with(csrf().useInvalidToken())).andExpect(status().is4xxClientError());
+		mvc.perform(post("/user").param("email", "not a email").param("password", "password").param("password2", "password").with(csrf())).andExpect(status().isOk()).andExpect(view().name("signUp"));
+		mvc.perform(post("/user").param("email", "another2@123").param("password", "pass").param("password2", "pass").with(csrf())).andExpect(status().isOk()).andExpect(view().name("signUp"));
+		mvc.perform(post("/user").param("email", "another2@123").param("password", "passwordpasswordpasswordpassword").param("password2", "passwordpasswordpasswordpassword").with(csrf())).andExpect(status().isOk()).andExpect(view().name("signUp"));
+		mvc.perform(post("/user").param("email", "another2@123").param("password", "password").param("password2", "difpassword").with(csrf())).andExpect(status().isOk()).andExpect(view().name("signUp"));
+	}
+
+	@Test
+	public void changeUserPasswordFormShouldRedirectTest() throws Exception {
+		mvc.perform(get("/user/settings/password")).andExpect(status().is3xxRedirection()).andExpect(view().name("http://localhost/login"));
+	}
+
+	@Test
+	@WithMockUser(username = "123@123", password = "123456")
+	public void changeUserPasswordTest() throws Exception {
+		mvc.perform(post("/user/settings/password").param("oldPassword", "123456").param("newPassword", "654321").param("newPassword2", "654321").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/user/settings"));
+		mvc.perform(post("/user/settings/password").param("oldPassword", "123456").param("newPassword", "654321").param("newPassword2", "654321").with(csrf().useInvalidToken())).andExpect(status().is4xxClientError());
+		mvc.perform(post("/user/settings/password").param("oldPassword", "wrongpassword").param("newPassword", "654321").param("newPassword2", "654321").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/user/settings/password?error=old"));
+		mvc.perform(post("/user/settings/password").param("oldPassword", "123456").param("newPassword", "short").param("newPassword2", "short").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/user/settings/password?error=new"));
+		mvc.perform(post("/user/settings/password").param("oldPassword", "123456").param("newPassword", "longlonglonglonglongpassword").param("newPassword2", "longlonglonglonglongpassword").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/user/settings/password?error=new"));
+		mvc.perform(post("/user/settings/password").param("oldPassword", "123456").param("newPassword", "654321").param("newPassword2", "different").with(csrf())).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/user/settings/password?error=confirm"));
+	}
 }
