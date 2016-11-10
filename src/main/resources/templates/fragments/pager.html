@@ -7,7 +7,7 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:fragment="pager(blogList)" class="pager">
+    <div th:fragment="pager(blogList)" class="pager" th:assert="${blogList != null}">
         <ul>
             <li><a th:href="@{'?page=' + ${blogList.hasPrevious() ? blogList.getNumber() - 1 : 0} + '&amp;size=10'}">&lt;</a></li>
             <li><a href="#" th:if="${blogList.getNumber() - 3 &gt;0}">...</a></li>

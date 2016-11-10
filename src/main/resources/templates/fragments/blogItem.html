@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:fragment="blogItem(blog)" class="blog-wrapper">
+    <div th:fragment="blogItem(blog)" class="blog-wrapper" th:assert="${blog != null}">
         <div class="title-wrapper">
             <div class="img-wrapper">
                 <img src="" alt="" class="blog-img"/>
