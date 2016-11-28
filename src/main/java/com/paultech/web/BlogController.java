@@ -49,7 +49,7 @@ public class BlogController {
     public String displayMyBlog(@PageableDefault(direction = Sort.Direction.DESC, sort = "modifyDate") Pageable pageable, Model model) throws UnauthorizedException {
         User user = userHelper.getUserFromAuthentication();
 
-        Page<Blog> blogList = blogRepo.findAll(pageable);
+        Page<Blog> blogList = blogRepo.findByUser(user, pageable);
         model.addAttribute("blogList", blogList);
         model.addAttribute("displayAddBlogLink", true);
         return "blog";

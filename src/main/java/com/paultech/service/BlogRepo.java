@@ -1,6 +1,7 @@
 package com.paultech.service;
 
 import com.paultech.domain.Blog;
+import com.paultech.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,5 @@ import java.util.List;
  */
 @Service
 public interface BlogRepo extends JpaRepository<Blog, Long> {
-    List<Blog> findByUserEmail(String email);
+    Page<Blog> findByUser(User user, Pageable pageable);
 }
