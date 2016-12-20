@@ -9,6 +9,7 @@ import com.paultech.web.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,15 +65,13 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(plainPassword));
 
         userRepo.save(user);
-        UserDetails userDetails = javaBlogUserDetailsService.loadUserByUsername(user.getEmail());
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                plainPassword,
-                userDetails.getAuthorities()
+                user.getEmail(),
+                plainPassword
         );
 
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "redirect:/blog";
     }
 
